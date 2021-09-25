@@ -5,7 +5,7 @@ import Link from 'next/link';
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <div>
-      <nav className="border-b p-6">
+      {/* <nav className="border-b p-6">
         <p className="text-4xl font-bold">CuRATE</p>
         <div className="flex mt-4">
           <Link href="/">
@@ -29,7 +29,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             </a>
           </Link>
         </div>
-      </nav>
+      </nav> */}
       <Component {...pageProps} />
     </div>
   )

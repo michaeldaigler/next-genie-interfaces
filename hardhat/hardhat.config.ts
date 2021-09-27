@@ -1,5 +1,7 @@
-require("@nomiclabs/hardhat-waffle");
-require('dotenv').config()
+import "@nomiclabs/hardhat-waffle";
+import { task } from "hardhat/config";
+import dotenv from 'dotenv'
+dotenv.config();
 const { DEV_WALLET_PRIVATE_KEY, RINKEBY_INFURA_URL } = process.env
 
 // This is a sample Hardhat task. To learn how to create your own go to
@@ -21,7 +23,7 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
 module.exports = {
   solidity: "0.8.4",
   paths: {
-    artifacts: './src/artifacts',
+    artifacts: '../next/src/artifacts',
 
   },
   networks: {

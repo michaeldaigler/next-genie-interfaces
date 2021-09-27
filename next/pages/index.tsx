@@ -5,15 +5,21 @@ import React, { useState, useEffect, useCallback, useReducer } from 'react'
 import UserInfo from '../components/UserInfo/UserInfo';
 import HorizontalScroll from '../components/HorizonatalScroll/HorizontalScroll';
 import { CurateHeader, ConnectButton, AppContainer } from './App.styles';
-import { ethers } from 'ethers';
+import { BigNumber, ethers } from 'ethers';
 import Web3Modal from 'web3modal';
 import WalletLink from 'walletlink';
 import WalletConnectProvider from '@walletconnect/web3-provider'
+import { createRaribleSdk, RaribleSdk } from "@rarible/protocol-ethereum-sdk"
+import { Web3Ethereum } from "@rarible/web3-ethereum"
+import Web3 from "web3"
 
 import styles from '../styles/Home.module.css'
 
 const INFURA_ID = '460f40a260564ac4a4f4b3fffb032dad'
 const providerOptions = {
+  metaMask: {
+
+  },
   walletconnect: {
     package: WalletConnectProvider, // required
     options: {
@@ -110,18 +116,22 @@ function reducer(state: StateType, action: ActionType): StateType {
 }
 
 
+
+
 const Home: NextPage = () => {
+  // const [rariProvider, setRariProvider] = useState<any>()
+	// const [sdk, setSdk] = useState<RaribleSdk>()
+	// const [accounts, setAccounts] = useState<string[]>([])
   const [state, dispatch] = useReducer(reducer, initialState)
   const { provider, web3Provider, chainId } = state
 
   const [address, setAddress] = useState<any>('---');
+  const [balance, setBalance] = useState<BigInt>();
   // const [web3Modal, setWeb3Modal] = useState<Web3Modal>();
   async function requestAccount() {
     await window.ethereum.request({ method: 'eth_requestAccounts' });
   }
-  useEffect(() => {
 
-  },[])
 
   const connectWallet = async () => {
     const web3Modal = new Web3Modal({
@@ -217,24 +227,37 @@ const Home: NextPage = () => {
         }
       }
     }
-  }, [provider, disconnect])
-  // useEffect(() => {
-  //   const provider = new ethers.providers.Web3Provider(window.ethereum)
-  //   const signer = provider.getSigner()
-  //   async function getAddress() {
-  //     if (signer) {
-  //       const newAddress = await signer.getAddress();
-  //       setAddress(newAddress);
-  //     }
-  //   }
+  }, [provider, disconnect]);
 
-  //   getAddress();
-  // },[])
+  const logout = () => {
+    const provider = new ethers.providers.Web3Provider(window.ethereum)
+
+    const signer = provider.getSigner()
+
+
+
+  }
+
+  useEffect(() => {
+    const provider = new ethers.providers.Web3Provider(window.ethereum)
+    const signer = provider.getSigner()
+    async function getAddress() {
+      if (signer) {
+        const newAddress = await signer.getAddress();
+        const balance = await signer.getBalance()
+        console.log(balance.toString())
+        setAddress(newAddress);
+        // setBalance(balance.to());
+      }
+    }
+
+    getAddress();
+  },[balance])
 
   return (
     <AppContainer>
       <h1 style={{gridArea:'h'}}>cu<CurateHeader>RATE</CurateHeader></h1>
-      <ConnectButton style={{ gridArea: 'a' }} onClick={() => connect()}>Connect Wallet</ConnectButton>
+      {address.length < 20 ? <ConnectButton style={{ gridArea: 'a' }} onClick={() => connect()}>Connect Wallet</ConnectButton> : <ConnectButton style={{ gridArea: 'a' }} onClick={() => logout()}>Logout </ConnectButton>}
       <style jsx>{`
         main {
           padding: 5rem 0;
@@ -283,7 +306,7 @@ const Home: NextPage = () => {
         }
       `}</style>
       <HorizontalScroll />
-      <UserInfo  address={address}/>
+      <UserInfo address={address} balance={balance}/>
      </AppContainer>
   );
 }

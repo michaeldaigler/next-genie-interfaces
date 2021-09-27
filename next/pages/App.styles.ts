@@ -32,7 +32,7 @@ export const ConnectButton = styled.button`
     font-weight: bold;
     font-size: large;
     float: left;
-    margin: 10px;
+    margin: 20px;
     cursor: pointer;
     &:hover {
         opacity: 0.5;

@@ -1,15 +1,14 @@
-# Basic Sample Hardhat Project
+# Idea -> cuRATE
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, a sample script that deploys that contract, and an example of a task implementation, which simply lists the available accounts.
+An app that aggregates frontend marketplaces for nfts
+Users can browse
+Developers can create their own custom interfaces and become 'Curators'
 
-Try running some of the following tasks:
+## Curators?
+Curators could be rewarded with netive protocol token? still thinking through how this could work
 
-```shell
-npx hardhat accounts
-npx hardhat compile
-npx hardhat clean
-npx hardhat test
-npx hardhat node
-node scripts/sample-script.js
-npx hardhat help
-```
+## Risks and Disclaimers
+All usual disclaimers apply.
+- Smart Contracts. Not audited
+- Progess. WIP so things could be breaking right now.
+- Idea. Still in iterating so this could change over time

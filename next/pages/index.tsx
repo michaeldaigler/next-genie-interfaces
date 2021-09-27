@@ -126,7 +126,7 @@ const Home: NextPage = () => {
   const { provider, web3Provider, chainId } = state
 
   const [address, setAddress] = useState<any>('---');
-  const [balance, setBalance] = useState<BigInt>();
+  const [balance, setBalance] = useState<string>();
   // const [web3Modal, setWeb3Modal] = useState<Web3Modal>();
   async function requestAccount() {
     await window.ethereum.request({ method: 'eth_requestAccounts' });
@@ -247,7 +247,7 @@ const Home: NextPage = () => {
         const balance = await signer.getBalance()
         console.log(balance.toString())
         setAddress(newAddress);
-        // setBalance(balance.to());
+        setBalance(balance.toString());
       }
     }
 

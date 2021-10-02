@@ -16,6 +16,7 @@ import Web3 from "web3"
 
 import styles from '../styles/Home.module.css'
 import Link from 'next/link';
+import {HorizontalScrollType } from '../components/HorizonatalScroll/HorizontalScroll';
 
 const INFURA_ID = '460f40a260564ac4a4f4b3fffb032dad'
 const providerOptions = {
@@ -141,6 +142,7 @@ const Home: NextPage = () => {
 
   const [address, setAddress] = useState<any>('---');
   const [balance, setBalance] = useState<number>();
+  const [signer, setSigner] = useState<any>();
   // const [web3Modal, setWeb3Modal] = useState<Web3Modal>();
   async function requestAccount() {
     await window.ethereum.request({ method: 'eth_requestAccounts' });
@@ -268,6 +270,7 @@ const Home: NextPage = () => {
           console.log(balance.toString())
           setAddress(newAddress);
           setBalance(Number(formattedBalance));
+          setSigner(signer);
         }
       }
 
@@ -280,7 +283,9 @@ const Home: NextPage = () => {
     <AppContainer>
       <h1 style={{gridArea:'h'}}>cu<CurateHeader>RATE</CurateHeader></h1>
       {address.length < 20 ? <ConnectButton style={{ gridArea: 'a' }} onClick={() => connect()}>Connect Wallet</ConnectButton> : <ConnectButton style={{ gridArea: 'a' }} onClick={() => logout()}>Logout </ConnectButton>}
-      {address.length > 20 && <Link href="/mint-asset" passHref><ConnectButton style={{ gridArea: 'y' }} >Create</ConnectButton></Link> }
+      {address.length > 20 && <Link href="/mint-asset" passHref><ConnectButton style={{ gridArea: 'y' }} >Create</ConnectButton></Link>}
+      {address.length > 20 && <Link href="/market-place" passHref><ConnectButton style={{ gridArea: '' }} >Market</ConnectButton></Link> }
+
       <style jsx>{`
         main {
           padding: 5rem 0;
@@ -328,8 +333,8 @@ const Home: NextPage = () => {
           box-sizing: border-box;
         }
       `}</style>
-      <HorizontalScroll />
-      <UserInfo address={address} balance={balance}/>
+      <HorizontalScroll frontends={[]} type={HorizontalScrollType.FRONTENDS }/>
+      <UserInfo address={address} balance={balance} gridPosition={ 'c'} signer={signer}/>
      </AppContainer>
   );
 }

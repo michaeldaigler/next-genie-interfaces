@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const UserInfoBox = styled.div`
-    height: 200px;
+    height: 120px;
     width: 400px;
     border: 1px solid grey;
     border-radius: 10px;

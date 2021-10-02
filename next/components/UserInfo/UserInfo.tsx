@@ -1,13 +1,16 @@
 import React from "react";
 import { UserInfoBox } from './UserInfo.style';
-import {BigNumberish, ethers} from 'ethers'
+import {BigNumberish, ethers, Signer} from 'ethers'
+import Account from "./Account";
 interface IUserInfo {
-    address?: string;
+    address: string;
+    signer: any;
     username?: string;
-    balance?: number
+    balance?: number;
+    gridPosition: string;
 }
 
-const UserInfo: React.FC<IUserInfo> = ({ address, username, balance }) => {
+const UserInfo: React.FC<IUserInfo> = ({ address, username, balance, gridPosition, signer }) => {
     if (typeof balance?.toString() === 'undefined') {
         balance = 0;
     }
@@ -17,9 +20,10 @@ const UserInfo: React.FC<IUserInfo> = ({ address, username, balance }) => {
     console.log(balance)
     return (
         <>
-            <UserInfoBox style={{gridArea:'c'}} >
-                Address: {address} <br />
-                Balance: {balance}
+            <UserInfoBox style={{ gridArea: gridPosition }} >
+                <span>{address}</span><br/>
+                <span>Balance: {balance}</span>
+                {/* <Account address={address} userSigner={signer} price={balance}/> */}
             </UserInfoBox>
         </>
     );

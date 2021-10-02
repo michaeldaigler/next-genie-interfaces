@@ -1,16 +1,32 @@
-import styled from 'styled-components';
+import styled, {css} from 'styled-components';
 
-export const AppContainer = styled.div`
+
+interface IAppContainer {
+    isMinting?: boolean;
+}
+
+export const AppContainer = styled.div<IAppContainer>`
 text-align: center;
 position: fixed;
 height: 100%;
 width: 100%;
 display: grid;
-grid-template-areas:
-". . h h y a c"
-". b b b b b b"
-". b b b b b b"
-". b b b b b b";
+${props => props.isMinting ? css`
+        grid-template-areas:
+        "a a b b b . . c "
+        ". d d d d d d ."
+        ". d d d d d d ."
+        ". d d d d d d .";`
+    :
+
+    `
+    grid-template-areas:
+    ". . h h y a c"
+    ". b b b b b b"
+    ". b b b b b b"
+    ". b b b b b b";`
+}
+
 
 `
 

@@ -27,10 +27,11 @@ export const HorizontalScrollLayout = styled.div`
 
 
 export const ViewBox = styled.div`
-    height: 100px;
-    width: 200px;
+    height: 200px;
+    width: 600px;
     border:1px solid grey;
     padding: 5px;
+    box-shadow: -3px 9px 5px 0px;
     margin-top: 200px;
     margin-left: 20px;
     border-radius: 8px;

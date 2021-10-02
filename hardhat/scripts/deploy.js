@@ -1,5 +1,5 @@
 const hre = require("hardhat");
-
+const fs = require('fs');
 async function main() {
   // Hardhat always runs the compile task when running scripts with its command
   // line interface.
@@ -16,11 +16,30 @@ async function main() {
   const LampToken = await hre.ethers.getContractFactory("LampToken");
   const lampToken = await LampToken.deploy("Lamp Token", "LAMP");
 
-  await greeter.deployed();
-  await lampToken.deployed();
+  const Marketplace = await hre.ethers.getContractFactory("CurateMarketplace");
+  const marketplace = await Marketplace.deploy();
 
-  console.log("Greeter deployed to:", greeter.address);
+  const NFT = await hre.ethers.getContractFactory("NFT");
+  const nft = await NFT.deploy(marketplace.address);
+
+
+
+  await lampToken.deployed();
+  await marketplace.deployed();
+  await nft.deployed();
+
+
+  let config = `
+  export const nftmarketaddress = "${marketplace.address}"
+  export const nftaddress = "${nft.address}"
+  `
+
+  let data = JSON.stringify(config)
+  fs.writeFileSync('config.js', JSON.parse(data))
+
   console.log("Token deployed to:", lampToken.address);
+  console.log("CuRATE Marketpalce deployed to: ", marketplace.address);
+  console.log("NFT address: ", nft.address);
 }
 
 // We recommend this pattern to be able to use async/await everywhere

@@ -11,9 +11,11 @@ contract NFT is ERC721URIStorage {
     Counters.Counter private _tokenIds;
     address contractAddress;
 
+
     constructor(address marketplaceAddress) ERC721("CurRATE Tokens", "RATE") {
         contractAddress = marketplaceAddress;
     }
+    event Test(uint256 indexed tokenId);
 
     function createToken(string memory tokenURI) public returns (uint) {
         _tokenIds.increment();
@@ -21,7 +23,9 @@ contract NFT is ERC721URIStorage {
 
         _mint(msg.sender, newItemId);
         _setTokenURI(newItemId, tokenURI);
+        console.log("Contract address: ", contractAddress);
         setApprovalForAll(contractAddress, true);
+        emit Test(newItemId);
         return newItemId;
     }
 }

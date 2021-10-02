@@ -8,17 +8,31 @@ import { CurateHeader, ConnectButton, AppContainer } from './App.styles';
 import { BigNumber, ethers } from 'ethers';
 import Web3Modal from 'web3modal';
 import WalletLink from 'walletlink';
+import Web3Connect from 'web3connect';
 import WalletConnectProvider from '@walletconnect/web3-provider'
 import { createRaribleSdk, RaribleSdk } from "@rarible/protocol-ethereum-sdk"
 import { Web3Ethereum } from "@rarible/web3-ethereum"
 import Web3 from "web3"
 
 import styles from '../styles/Home.module.css'
+import Link from 'next/link';
 
 const INFURA_ID = '460f40a260564ac4a4f4b3fffb032dad'
 const providerOptions = {
-  metaMask: {
 
+  metaMask: {
+    package: ethers.providers.getDefaultProvider(),
+    options: {
+      infuraId: INFURA_ID
+    },
+    torus: {
+
+    },
+    display: {
+      logo: 'https://play-lh.googleusercontent.com/PjoJoG27miSglVBXoXrxBSLveV6e3EeBPpNY55aiUUBM9Q1RCETKCOqdOkX2ZydqVf0',
+      name: 'Coinbase',
+      description: 'Connect to Coinbase Wallet (not Coinbase App)',
+    }
   },
   walletconnect: {
     package: WalletConnectProvider, // required
@@ -126,7 +140,7 @@ const Home: NextPage = () => {
   const { provider, web3Provider, chainId } = state
 
   const [address, setAddress] = useState<any>('---');
-  const [balance, setBalance] = useState<string>();
+  const [balance, setBalance] = useState<number>();
   // const [web3Modal, setWeb3Modal] = useState<Web3Modal>();
   async function requestAccount() {
     await window.ethereum.request({ method: 'eth_requestAccounts' });
@@ -239,25 +253,34 @@ const Home: NextPage = () => {
   }
 
   useEffect(() => {
-    const provider = new ethers.providers.Web3Provider(window.ethereum)
-    const signer = provider.getSigner()
-    async function getAddress() {
-      if (signer) {
-        const newAddress = await signer.getAddress();
-        const balance = await signer.getBalance()
-        console.log(balance.toString())
-        setAddress(newAddress);
-        setBalance(balance.toString());
-      }
-    }
+    if (window.ethereum) {
 
-    getAddress();
-  },[balance])
+
+      const provider = new ethers.providers.Web3Provider(window.ethereum)
+      const signer = provider.getSigner()
+      console.log(signer)
+      const getAddress = async () => {
+        if (signer) {
+          const newAddress = await signer.getAddress();
+          const balance = await (await signer.getBalance()).toBigInt()
+          const formattedBalance = ethers.utils.formatEther(balance)
+
+          console.log(balance.toString())
+          setAddress(newAddress);
+          setBalance(Number(formattedBalance));
+        }
+      }
+
+      getAddress();
+    }
+  }, [balance]);
+
 
   return (
     <AppContainer>
       <h1 style={{gridArea:'h'}}>cu<CurateHeader>RATE</CurateHeader></h1>
       {address.length < 20 ? <ConnectButton style={{ gridArea: 'a' }} onClick={() => connect()}>Connect Wallet</ConnectButton> : <ConnectButton style={{ gridArea: 'a' }} onClick={() => logout()}>Logout </ConnectButton>}
+      {address.length > 20 && <Link href="/mint-asset" passHref><ConnectButton style={{ gridArea: 'y' }} >Create</ConnectButton></Link> }
       <style jsx>{`
         main {
           padding: 5rem 0;

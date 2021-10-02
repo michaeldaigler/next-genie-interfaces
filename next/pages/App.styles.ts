@@ -7,7 +7,7 @@ height: 100%;
 width: 100%;
 display: grid;
 grid-template-areas:
-". . h h . a c"
+". . h h y a c"
 ". b b b b b b"
 ". b b b b b b"
 ". b b b b b b";

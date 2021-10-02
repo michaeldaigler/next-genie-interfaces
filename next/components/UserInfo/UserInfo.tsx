@@ -4,7 +4,7 @@ import {BigNumberish, ethers} from 'ethers'
 interface IUserInfo {
     address?: string;
     username?: string;
-    balance?: BigInt | number | string
+    balance?: number
 }
 
 const UserInfo: React.FC<IUserInfo> = ({ address, username, balance }) => {
@@ -13,13 +13,13 @@ const UserInfo: React.FC<IUserInfo> = ({ address, username, balance }) => {
     }
 
 
-    const sanitizedBalance = ethers.utils.parseEther(balance);
+
     console.log(balance)
     return (
         <>
             <UserInfoBox style={{gridArea:'c'}} >
                 Address: {address} <br />
-                Balance: {sanitizedBalance}
+                Balance: {balance}
             </UserInfoBox>
         </>
     );

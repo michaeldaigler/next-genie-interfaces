@@ -21,15 +21,13 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
  * @type import('hardhat/config').HardhatUserConfig
  */
 module.exports = {
-  solidity: "0.8.4",
   paths: {
     artifacts: '../next/src/artifacts',
 
   },
+  defaultNetwork: 'hardhat',
   networks: {
     hardhat: {
-      chainId: 1337,
-
     },
     rinkeby: {
       url: RINKEBY_INFURA_URL,
@@ -40,5 +38,14 @@ module.exports = {
       accounts: [`0x${DEV_WALLET_PRIVATE_KEY}`]
     }
 
+  },
+  solidity: {
+    version: "0.8.4",
+    settings: {
+      optimizer: {
+        enabled: true,
+        runs: 200
+      }
+    }
   }
 };
